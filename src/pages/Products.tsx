@@ -1,131 +1,135 @@
 import { useState } from 'react'
-import { Download, Star, CheckCircle2, ChevronRight } from 'lucide-react'
+import { Download, CheckCircle2, ChevronRight, Layers } from 'lucide-react'
 import { products } from '../data/products'
 import Comments from '../components/Comments'
 
 export default function Products() {
   const [selected, setSelected] = useState(products[0])
-  const [activeScreenshot, setActiveScreenshot] = useState(0)
+  const [tab, setTab] = useState<'features' | 'comments'>('features')
 
   return (
-    <div className="pt-24 pb-20 section-padding min-h-screen">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-12">
-          <p className="text-primary-400 text-sm font-mono mb-2">// what I've shipped</p>
-          <h1 className="text-5xl font-black text-white mb-4">My Products</h1>
-          <p className="text-white/50 max-w-xl">
-            Software I've built and released for real users. Not just side projects —
-            actual products you can download and use today.
+    <div className="min-h-screen pt-20">
+
+      {/* ── Page hero ── */}
+      <div className="relative overflow-hidden border-b border-white/[0.06]" style={{ backgroundColor: '#07070f' }}>
+        <div className="pointer-events-none absolute inset-0"
+          style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 0%, rgba(139,92,246,0.12) 0%, transparent 70%)' }} />
+        <div className="wrap py-14 md:py-20 relative z-10">
+          <p className="eyebrow">// what I've shipped</p>
+          <h1 className="text-4xl sm:text-5xl font-black text-white mb-4">My Products</h1>
+          <p className="text-white/45 max-w-xl text-base leading-relaxed">
+            Real software I've built and released — not just side projects.
+            Download, try, and leave your thoughts below.
           </p>
         </div>
+      </div>
 
-        <div className="grid lg:grid-cols-4 gap-8">
-          {/* Product list sidebar */}
-          <div className="lg:col-span-1 space-y-2">
-            {products.map((product) => (
-              <button
-                key={product.id}
-                onClick={() => { setSelected(product); setActiveScreenshot(0) }}
-                className={`w-full text-left p-4 rounded-xl transition-all flex items-center justify-between group ${
-                  selected.id === product.id
-                    ? 'bg-primary-600/20 border border-primary-500/30 glow-border'
-                    : 'glass hover:bg-white/5'
-                }`}
-              >
-                <div>
-                  <div className="font-semibold text-white text-sm">{product.name}</div>
-                  <div className="text-xs text-white/40 mt-0.5">{product.category}</div>
-                </div>
-                <ChevronRight
-                  size={16}
-                  className={`text-white/30 transition-transform ${
-                    selected.id === product.id ? 'text-primary-400 rotate-90' : 'group-hover:translate-x-1'
+      <div className="wrap section">
+        <div className="flex flex-col lg:flex-row gap-6 xl:gap-8">
+
+          {/* ── Sidebar ── */}
+          <div className="lg:w-56 xl:w-64 shrink-0">
+            <p className="text-xs text-white/30 uppercase tracking-widest font-semibold mb-3 px-1">Products</p>
+            <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-1 lg:pb-0">
+              {products.map(p => (
+                <button key={p.id}
+                  onClick={() => { setSelected(p); setTab('features') }}
+                  className={`shrink-0 lg:w-full text-left px-4 py-3 rounded-xl flex items-center justify-between gap-3 transition-all text-sm ${
+                    selected.id === p.id
+                      ? 'text-violet-300 border border-violet-500/30'
+                      : 'card text-white/60 hover:text-white border border-transparent'
                   }`}
-                />
-              </button>
-            ))}
+                  style={selected.id === p.id ? { background: 'rgba(139,92,246,0.12)' } : {}}
+                >
+                  <div className="min-w-0">
+                    <div className="font-semibold truncate">{p.name}</div>
+                    <div className="text-xs text-white/35 mt-0.5">{p.category}</div>
+                  </div>
+                  <ChevronRight size={14} className={`shrink-0 transition-transform ${selected.id === p.id ? 'text-violet-400 rotate-90 lg:rotate-0' : 'text-white/20'}`} />
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Product detail */}
-          <div className="lg:col-span-3 space-y-8">
-            {/* Product hero */}
-            <div className="glass rounded-2xl p-8">
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <h2 className="text-3xl font-black text-white">{selected.name}</h2>
-                    <span className="text-xs px-2 py-1 rounded-full bg-green-500/15 text-green-400 font-medium">
-                      v{selected.version}
-                    </span>
+          {/* ── Main detail ── */}
+          <div className="flex-1 min-w-0 space-y-5">
+
+            {/* Product header card */}
+            <div className="card rounded-2xl overflow-hidden">
+              {/* Top gradient strip */}
+              <div className="h-1.5 bg-gradient-to-r from-violet-500 via-pink-500 to-violet-500" />
+
+              <div className="p-5 sm:p-7">
+                {/* Title row */}
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-5">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-3 mb-1.5">
+                      <h2 className="text-2xl sm:text-3xl font-black text-white">{selected.name}</h2>
+                      <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-500/12 text-emerald-400 border border-emerald-500/20 font-medium">
+                        v{selected.version}
+                      </span>
+                    </div>
+                    <p className="text-violet-400 font-medium text-sm">{selected.tagline}</p>
                   </div>
-                  <p className="text-primary-400 font-medium">{selected.tagline}</p>
+                  <a href={selected.downloadUrl}
+                    className="btn-primary shrink-0 whitespace-nowrap self-start">
+                    <Download size={15} /> Free Download
+                  </a>
                 </div>
-                <a
-                  href={selected.downloadUrl}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-500 text-white font-semibold text-sm transition-all whitespace-nowrap"
-                >
-                  <Download size={16} /> Download Free
-                </a>
-              </div>
 
-              <p className="text-white/60 leading-relaxed mb-6">{selected.description}</p>
+                <p className="text-white/55 text-sm leading-relaxed mb-5">{selected.description}</p>
 
-              {/* Platforms */}
-              <div className="flex flex-wrap gap-2 mb-6">
-                {selected.platform.map((p) => (
-                  <span key={p} className="text-xs px-3 py-1 rounded-lg glass text-white/60">
-                    {p}
+                {/* Platform badges */}
+                <div className="flex flex-wrap gap-2 mb-5">
+                  <div className="flex items-center gap-1.5 text-xs text-white/35 mr-1">
+                    <Layers size={12} /> Platforms:
+                  </div>
+                  {selected.platform.map(p => (
+                    <span key={p} className="text-xs px-3 py-1 rounded-lg card text-white/55">{p}</span>
+                  ))}
+                </div>
+
+                {/* Screenshot placeholder */}
+                <div className="rounded-xl flex items-center justify-center aspect-video"
+                  style={{ background: 'linear-gradient(135deg,rgba(139,92,246,0.07),rgba(236,72,153,0.04))', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <span className="text-8xl font-black font-mono" style={{ color: 'rgba(255,255,255,0.05)' }}>
+                    {selected.name[0]}
                   </span>
-                ))}
-              </div>
-
-              {/* Screenshots */}
-              {selected.screenshots.length > 0 && (
-                <div className="space-y-3">
-                  <div className="aspect-video rounded-xl bg-dark-700 border border-white/10 flex items-center justify-center overflow-hidden">
-                    <div className="text-white/10 text-6xl font-black font-mono">
-                      {selected.name[0]}
-                    </div>
-                  </div>
-                  {selected.screenshots.length > 1 && (
-                    <div className="flex gap-2">
-                      {selected.screenshots.map((_, i) => (
-                        <button
-                          key={i}
-                          onClick={() => setActiveScreenshot(i)}
-                          className={`w-16 h-10 rounded-lg border transition-all ${
-                            activeScreenshot === i
-                              ? 'border-primary-500 bg-primary-600/20'
-                              : 'border-white/10 bg-white/5 hover:border-white/20'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  )}
                 </div>
-              )}
+              </div>
             </div>
 
-            {/* Features */}
-            <div className="glass rounded-2xl p-8">
-              <div className="flex items-center gap-2 mb-6">
-                <Star size={18} className="text-primary-400" />
-                <h3 className="text-lg font-bold text-white">Key Features</h3>
-              </div>
-              <div className="grid sm:grid-cols-2 gap-3">
-                {selected.features.map((feature) => (
-                  <div key={feature} className="flex items-start gap-3">
-                    <CheckCircle2 size={16} className="text-green-400 mt-0.5 shrink-0" />
-                    <span className="text-white/70 text-sm">{feature}</span>
-                  </div>
+            {/* ── Tabs: Features / Comments ── */}
+            <div className="card rounded-2xl overflow-hidden">
+              {/* Tab bar */}
+              <div className="flex border-b border-white/[0.07]">
+                {(['features', 'comments'] as const).map(t => (
+                  <button key={t} onClick={() => setTab(t)}
+                    className={`px-6 py-3.5 text-sm font-medium capitalize transition-all ${
+                      tab === t
+                        ? 'text-violet-400 border-b-2 border-violet-500'
+                        : 'text-white/40 hover:text-white/70'
+                    }`}
+                  >
+                    {t}
+                  </button>
                 ))}
               </div>
-            </div>
 
-            {/* Comments */}
-            <div className="glass rounded-2xl p-8">
-              <Comments productId={selected.id} />
+              <div className="p-5 sm:p-7">
+                {tab === 'features' ? (
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    {selected.features.map(f => (
+                      <div key={f} className="flex items-start gap-3">
+                        <CheckCircle2 size={15} className="text-emerald-400 mt-0.5 shrink-0" />
+                        <span className="text-sm text-white/65">{f}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <Comments productId={selected.id} />
+                )}
+              </div>
             </div>
           </div>
         </div>

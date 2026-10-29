@@ -23,7 +23,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="space-y-3">
             <p className="font-bold text-white/90">
-              <span className="gradient-text">Sithum</span>
+              <span className="grad">Sithum</span>
               <span className="text-white/30">.dev</span>
             </p>
             <p className="text-xs text-white/35 leading-relaxed max-w-[220px]">
