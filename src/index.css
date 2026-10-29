@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base ──────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    @apply font-sans antialiased;
+    background-color: #03050a;
+    color: rgba(255,255,255,0.88);
+    /* Ambient background glow */
+    background-image:
+      radial-gradient(ellipse 100% 55% at 50% -10%, rgba(6,182,212,0.10) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(16,185,129,0.05) 0%, transparent 60%);
+    background-attachment: fixed;
+  }
+}
+
+/* ─── Component Utilities ───────────────────────────────────── */
+@layer utilities {
+
+  /* Glassmorphism card */
+  .glass {
+    background: linear-gradient(135deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.015) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+
+  /* Slightly more prominent */
+  .glass-lg {
+    background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+
+  /* Hover glow border */
+  .glass-hover {
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .glass-hover:hover {
+    border-color: rgba(6,182,212,0.25);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 0 0 1px rgba(6,182,212,0.12);
+  }
+
+  /* Cyan gradient text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #22d3ee 0%, #34d399 100%);
+  }
+
+  /* Section horizontal padding */
+  .px-section {
+    @apply px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24;
+  }
+
+  /* Section vertical rhythm */
+  .py-section {
+    @apply py-20 md:py-28;
+  }
+
+  /* Subtle tag pill */
+  .tag {
+    @apply text-xs font-mono px-2.5 py-1 rounded-md;
+    background: rgba(6,182,212,0.10);
+    color: rgba(6,182,212,0.85);
+    border: 1px solid rgba(6,182,212,0.15);
+  }
+
+  /* Cyan dot accent */
+  .dot-accent::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #06b6d4;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: #03050a; }
+::-webkit-scrollbar-thumb { background: rgba(6,182,212,0.35); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(6,182,212,0.6); }
+
+/* ─── Selection ─────────────────────────────────────────────── */
+::selection {
+  background: rgba(6,182,212,0.25);
+  color: #fff;
+}
+
+/* ─── Focus ring ────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid rgba(6,182,212,0.6);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ─── Skill pill marquee ────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes marquee-reverse {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
